@@ -1,4 +1,5 @@
 // https://leetcode.com/problems/intersection-of-two-arrays-ii/
+#include <algorithm>
 #include <cassert>
 #include <vector>
 
@@ -6,8 +7,7 @@ typedef std::vector<int> vector;
 
 
 class Solution {
-public:
-    static vector intersect(vector& nums1, vector& nums2) {
+    static vector intersect_(vector& nums1, vector& nums2) {
 
         auto res = vector{};
         auto tmpRes = vector{};
@@ -45,6 +45,17 @@ public:
         }
         return res;
     }
+
+public:
+    static vector intersect(vector& nums1, vector& nums2) {
+
+        auto res =  intersect_(nums1, nums2);
+        std::reverse(nums2.begin(), nums2.end());
+        auto res1 =  intersect_(nums1, nums2);
+
+
+        return res.size() > res1.size() ? res : res1;
+    } 
 };
 
 int main(int, char*[]) {
@@ -58,6 +69,12 @@ int main(int, char*[]) {
     vec1 = vector{4, 9, 5};
     vec2 = vector{9, 4, 9, 8, 4};
     vecRes = vector{4, 9};
+
+    assert(Solution::intersect(vec1, vec2) == vecRes);
+
+    vec1 = vector{1, 2};
+    vec2 = vector{2, 1};
+    vecRes = vector{1, 2};
 
     assert(Solution::intersect(vec1, vec2) == vecRes);
 
